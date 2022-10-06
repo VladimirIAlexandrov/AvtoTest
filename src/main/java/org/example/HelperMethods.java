@@ -3,7 +3,11 @@ import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+
+import java.time.Duration;
 import java.util.*;
 public class HelperMethods {
 private static WebDriver driver;
@@ -53,7 +57,7 @@ private static WebDriver driver;
 
         if (driver.getCurrentUrl().equals("https://www.saucedemo.com/")) {
 
-            Assert.fail("Ошибка авторизацииEpic sadface: Sorry, this user has been locked out.");
+            Assert.fail(" Ошибка авторизацииEpic sadface: Sorry, this user has been locked out.");
         };
     }
 
@@ -83,7 +87,7 @@ private static WebDriver driver;
         ToolsMethods.ProductCheck("(//*[@class=\"inventory_item\"])[5]","$7.99");
         ToolsMethods.ProductCheck("(//*[@class=\"inventory_item\"])[6]","$15.99");
     }
-    @Step("Проверка кнопок 'Add to cart' на активность")
+    @Step("Проверка кнопок 'Add to cart'")
     public void EnableButton() {
         WebElement button = GetElement("//*[starts-with(text(), 'Add to cart')]");
         List<WebElement> buttonS = button.findElements(By.xpath("//*[starts-with(text(), 'Add to cart')]"));
@@ -112,7 +116,7 @@ private static WebDriver driver;
         BasketSchet("");
     }
 
-    @Step("Проверка кнопки корзины на активность")
+    @Step("Проверка кнопки корзины")
     public void EnabledBasket() {
         WebElement button = GetElement("//*[@id=\"shopping_cart_container\"]");
 
@@ -207,9 +211,10 @@ private static WebDriver driver;
         buttonR.click();
     }
 
-    public void ClickLogout() {
+    public void ClickLogout() throws InterruptedException {
         WebElement button_menu1 = GetElement("//*[@id=\"menu_button_container\"]/div/div[1]/div");
         button_menu1.click();
+        Thread.sleep(1000L);
         LogoutCheck();
     }
 
