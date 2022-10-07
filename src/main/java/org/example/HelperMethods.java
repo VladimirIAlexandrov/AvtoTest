@@ -34,17 +34,16 @@ private static WebDriver driver;
     }
 
     public void QuitDriver() throws InterruptedException {
-        //Thread.sleep(5000L);
         driver.quit();
     }
 
-    @Step("Проверить видимости заголовка'Products'")
+    @Step("Проверить видимост заголовка 'Products'")
     public void displayed_prod() {
-        ToolsMethods.ProductCheck("//*[@id=\"header_container\"]/div[2]/span", "Products");
+        ToolsMethods.ProductCheck("//*[@class=\"title\"]", "Products");
     }
-    @Step("Проверить видимости кнопки 'Name (A to Z)'")
+    @Step("Проверить видимость кнопки 'Name (A to Z)'")
     public void displayed_sort() {
-        ToolsMethods.ProductCheck("//*[@id=\"header_container\"]/div[2]/div[2]/span/span", "Name (A to Z)");
+        ToolsMethods.ProductCheck("//option[@value=\"az\"]", "Name (A to Z)");
     }
 
     public void DisplayedLogin(){
@@ -140,7 +139,7 @@ private static WebDriver driver;
     }
 
     public  void sort1() {
-        WebElement button_Z_A1 = GetElement("//*[@id=\"header_container\"]/div[2]/div[2]/span/select/option[2]");
+        WebElement button_Z_A1 = GetElement("//*[@class=\"right_component\"])[1]");
         button_Z_A1.click();
     }
 
@@ -198,12 +197,13 @@ private static WebDriver driver;
     public void ClickBasket() {
         WebElement button_set = GetElement("//*[@id=\"shopping_cart_container\"]/a");
         button_set.click();
-        ToolsMethods.ProductCheck("//*[@id=\"header_container\"]/div[2]/span", "Your_Cart");
-        ToolsMethods.ProductCheck("//*[@id=\"cart_contents_container\"]/div/div[1]/div[1]", "qty");
-        ToolsMethods.ProductCheck("//*[@id=\"cart_contents_container\"]/div/div[1]/div[2]", "DESCRIPTION");
-        ToolsMethods.ProductCheck("//*[@id=\"item_4_title_link\"]/div","Sauce Labs Backpack");
-        ToolsMethods.ProductCheck("//*[@id=\"cart_contents_container\"]/div/div[1]/div[3]/div[2]/div[1]", "carry.allTheThings() with the sleek, streamlined Sly Pack that melds uncompromising style with unequaled laptop and tablet protection.");
-        ToolsMethods.ProductCheck("//*[@id=\"cart_contents_container\"]/div/div[1]/div[3]/div[2]/div[2]/div","$29.99");
+        ToolsMethods.ProductCheck("(//*[@class=\"cart_list\"])[1]", "Your_Cart");
+        ToolsMethods.ProductCheck("(//*[@class=\"cart_list\"])[1]","qty");
+
+        ToolsMethods.ProductCheck("(//*[@class=\"cart_list\"])[1]", "DESCRIPTION");
+        ToolsMethods.ProductCheck("(//*[@class=\"cart_item\"])[1]","Sauce Labs Backpack");
+        ToolsMethods.ProductCheck("(//*[@class=\"cart_item\"])[1]", "carry.allTheThings() with the sleek, streamlined Sly Pack that melds uncompromising style with unequaled laptop and tablet protection.");
+        ToolsMethods.ProductCheck("(//*[@class=\"cart_item\"])[1]","$29.99");
     }
     @Step("Нажата кнопка с иконкой корзины")
     public void ClickRemove() {
@@ -212,14 +212,16 @@ private static WebDriver driver;
     }
 
     public void ClickLogout() throws InterruptedException {
-        WebElement button_menu1 = GetElement("//*[@id=\"menu_button_container\"]/div/div[1]/div");
+        WebElement button_menu1 = GetElement("//*[@class=\"bm-burger-button\"]");
         button_menu1.click();
-        Thread.sleep(1000L);
         LogoutCheck();
     }
 
     public static WebElement GetElement(String XPath) {
-        WebElement Element = driver.findElement(By.xpath(XPath));
+
+       // WebElement Element = driver.findElement(By.xpath(XPath));
+        WebElement Element = (new WebDriverWait(driver, Duration.ofSeconds(5)))
+                .until(ExpectedConditions.elementToBeClickable(By.xpath(XPath)));
         return Element;
     }
 
