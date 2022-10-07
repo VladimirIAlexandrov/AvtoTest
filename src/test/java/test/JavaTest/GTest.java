@@ -9,7 +9,7 @@ import org.example.HelperMethods;
 import org.testng.annotations.Test;
 
 public class GTest {
-    @Test
+   @Test
     @Description("[Тест-5321] Проверка работы страницы с продуктами пользователем standard_user")
     public void test1() throws InterruptedException {
         Master test = new Master();
