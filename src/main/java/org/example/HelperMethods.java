@@ -1,4 +1,5 @@
 package org.example;
+import io.qameta.allure.Allure;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -145,19 +146,32 @@ private static WebDriver driver;
 
     @Step("Проверка сортировки")
     public  void sort() throws InterruptedException {
-
-        String[] array = {"Test.allTheThings() T-Shirt (Red)", "Sauce Labs Onesie", "Sauce Labs Fleece Jacket", "Sauce Labs Bolt T-Shirt", "Sauce Labs Bike Light", "Sauce Labs Backpack"};
-        WebElement button_Z_A1 = GetElement("//option[@value=\"za\"]");
-        button_Z_A1.click();
-        String[] array1 = new String[7];
-        WebElement number_r1;
+// Беру значения до сортировки с сайта
+        String[] array = new String[6];
+        WebElement number_r;
         int i=1;
+        for(int j=0;j<6;j++){
+            number_r = GetElement("/html/body/div/div/div/div[2]/div/div/div/div["+i+"]/div[2]/div[1]/a/div");
+            array[j]=number_r.getText();
+            i++;
+        }
+
+        Arrays.sort(array, Comparator.reverseOrder()); // сортирую их в порядке z->a
+
+        WebElement button_Z_A1 = GetElement("//option[@value=\"za\"]");
+        button_Z_A1.click();  // нажимаю на кнопку сортировки (z->a) на сайте
+
+        String[] array1 = new String[6];
+        WebElement number_r1;
+        i=1;
+        // Беру значения после сортировки с сайта
         for(int j=0;j<6;j++){
             number_r1 = GetElement("/html/body/div/div/div/div[2]/div/div/div/div["+i+"]/div[2]/div[1]/a/div");
             array1[j]=number_r1.getText();
             i++;
         }
 
+        // сравниваю результаты
         for(i=0;i<6;i++) {
             if(array[i].equals(array1[i])){
                 Assert.assertTrue(true, "Сортировка работает");
